@@ -1,0 +1,5 @@
+---
+junos:
+    username: 'nornir'
+    password: 'juniper123'
+    platform: junos
