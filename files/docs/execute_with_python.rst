@@ -48,12 +48,8 @@ Execute either the synchronous or asynchronous script after you have updated the
 
 .. code-block:: bash
 
-    $ cd files/scrapli
-
-    $ ls -ls output
-    total 0
-
-    $ python app_async.py
+    $ cd files/nornir
+    $ python app.py
     
     192.168.105.137
     <rpc-reply xmlns:junos="http://xml.juniper.net/junos/21.2R0/junos" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="101">
