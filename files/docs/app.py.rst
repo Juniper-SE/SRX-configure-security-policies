@@ -149,7 +149,6 @@ Quite literally the same exact function as our :code:`configure_addressbook`, bu
         response = nr.run(task=configure_addressbook)
         print_result(response)
 
-        # create our security policies
         response = nr.run(task=configure_policies)
         print_result(response)
 
