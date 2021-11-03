@@ -1,0 +1,14 @@
+{% for each in secpolicies %}
+
+set security policies from-zone {{ each.src }} to-zone {{ each.dst }} policy {{ each.name }} match source-address {{ each.match.source_address }}
+set security policies from-zone {{ each.src }} to-zone {{ each.dst }} policy {{ each.name }} match destination-address {{ each.match.destination_address }}
+set security policies from-zone {{ each.src }} to-zone {{ each.dst }} policy {{ each.name }} match application {{ each.match.application }}
+{% if each.match.dynamic_application is defined %}
+set security policies from-zone {{ each.src }} to-zone {{ each.dst }} policy {{ each.name }} match dynamic-application {{ each.match.dynamic_application }}
+{% endif %}
+set security policies from-zone {{ each.src }} to-zone {{ each.dst }} policy {{ each.name }} then {{ each.then.action }}
+{% if each.then.log is defined %}
+set security policies from-zone {{ each.src }} to-zone {{ each.dst }} policy {{ each.name }} then log {{ each.then.log }}
+{% endif %}
+
+{% endfor %}
