@@ -15,7 +15,7 @@ About our example
 In this example we will be creating a new address book object and then referencing that object in a new security policy.
 
 
-.. code-block:: yaml
+.. code-block:: json
 
     [edit security]
     +  address-book {
