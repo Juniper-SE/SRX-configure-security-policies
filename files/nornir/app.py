@@ -26,10 +26,10 @@ def configure_addressbook(task):
     )
     if response:
         diff = task.run(pyez_diff)
-        print(f'diff:\n{diff}')
+        print_result(diff)
     if diff:
         commit = task.run(task=pyez_commit)
-        print(f'commit:\n{commit}')
+        print_result(commit)
 
 
 def configure_policies(task):
