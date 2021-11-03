@@ -1,60 +1,10 @@
 ---
 Lafayette:
-  hostname: 192.168.105.31
+  hostname: 192.168.105.136
   groups:
     - junos
-  data:
-    ospf:
-      area:
-        - name: 0.0.0.0
-          interfaces:
-            - name: ge-0/0/0.0
-              interface_type: p2p
-            - name: ge-0/0/1.0
-              passive: True
-            - name: lo0.0
-              passive: True
 
 Houston:
-  hostname: 192.168.105.32
+  hostname: 192.168.105.121
   groups:
     - junos
-  data:
-    ospf:
-      area:
-        - name: 0.0.0.0
-          interfaces:
-            - name: ge-0/0/0.0
-              interface_type: p2p
-            - name: lo0.0
-              passive: True
-
-Dallas:
-  hostname: 192.168.105.33
-  groups:
-    - junos
-  data:
-    ospf:
-      area:
-        - name: 0.0.0.0
-          interfaces:
-            - name: ge-0/0/1.0
-              interface_type: p2p
-            - name: lo0.0
-              passive: True
-
-Austin:
-  hostname: 192.168.105.34
-  groups:
-    - junos
-  data:
-    ospf:
-      area:
-        - name: 0.0.0.0
-          interfaces:
-            - name: ge-0/0/1.0
-              interface_type: p2p
-            - name: ge-0/0/0.0
-              interface_type: p2p
-            - name: lo0.0
-              passive: True
