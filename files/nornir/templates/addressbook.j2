@@ -1,0 +1,3 @@
+{% for each in addressbook %}
+set security address-book global address {{ each.name }} {{ each.prefix }}
+{% endfor %}

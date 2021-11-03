@@ -6,7 +6,47 @@ app.py
 Configure security policies
 ---------------------------
 
-We will be using Nornir to configure our firewalls with the following security policies:
+We will be using Nornir to configure our firewalls with their security address books and policies.
+
+-----------------
+About our example
+-----------------
+
+In this example we will be creating a new address book object and then referencing that object in a new security policy.
+
+
+.. code-block:: yaml
+
+    [edit security]
+    +  address-book {
+    +      global {
+    +          address WAN 74.51.192.0/24;
+    +      }
+    +  }
+
+    [edit security policies]
+        from-zone LAN to-zone DMZ { ... }
+    +    from-zone WAN to-zone DMZ {
+    +        policy WAN-DMZ {
+    +            match {
+    +                source-address WAN;
+    +                destination-address any;
+    +                application any;
+    +            }
+    +            then {
+    +                permit;
+    +                log {
+    +                    session-close;
+    +                }
+    +            }
+    +        }
+    +    }
+
+We will executing our automation in a declarative manner, which is to say that we will declare how we want our firewall to be configured in a data format (YAML) and have it ran through a templating engine (Jinja2). The resulting output will be a series of `set commands` needed to provision the firewall according to our intent.
+
+As we are working within an automation framework, we will need to provide this data in a fashion that will be understood by Nornir. Because of this, we will start here at the `app.py` file used to execute our script, but please note that we will be bouncing between the additional files when appropriate.
+
+You may find this document, and all of its kinfolk within the `files/docs/` directory.
 
 -----------
 Explanation
@@ -14,10 +54,78 @@ Explanation
 
 .. code-block:: python
 
-    import asyncio
+    import logging
+    import datetime
 
-    from scrapli_netconf.driver import AsyncNetconfDriver
-    from scrapli.logging import enable_basic_logging
+    from nornir_pyez.plugins.tasks import pyez_config, pyez_diff, pyez_commit
+    from nornir import InitNornir
+    from nornir_utils.plugins.functions import print_result
+    from rich import print
+
+    nr = InitNornir(config_file="config.yaml")
+
+    def configure_addressbook(task):
+
+        # pass in variables from inventory file
+        data = {}
+        data['addressbook'] = task.host['addressbook']
+        print(data)
+
+        # execute our task by templating our variables through a Jinja2 template to produce config
+        response = task.run(
+            task=pyez_config,
+            severity_level=logging.DEBUG,
+            template_path='templates/addressbook.j2',
+            template_vars=data,
+            data_format='set'
+        )
+        if response:
+            diff = task.run(pyez_diff)
+            print_result(diff)
+        if diff:
+            commit = task.run(task=pyez_commit)
+            print_result(commit)
+
+
+    def configure_policies(task):
+
+        # pass in variables from inventory file
+        data = {}
+        data['secpolicies'] = task.host['secpolicies']
+        print(data)
+
+        # execute our task by templating our variables through a Jinja2 template to produce config
+        # push and commit
+        response = task.run(
+            task=pyez_config,
+            severity_level=logging.DEBUG,
+            template_path='templates/policies.j2',
+            template_vars=data,
+            data_format='set'
+        )
+        if response:
+            diff = task.run(pyez_diff)
+            print_result(diff)
+        if diff:
+            commit = task.run(task=pyez_commit)
+            print_result(commit)
+
+
+    if __name__ == "__main__":
+        start_time = datetime.datetime.now()
+
+        # create our address-book entry
+        print(f'Configuring our address book now')
+        response = nr.run(task=configure_addressbook)
+        print_result(response)
+
+        print(f'Configuring our security policies now')
+        # create our security policies
+        response = nr.run(task=configure_policies)
+        print_result(response)
+
+        # print time delta to screen
+        print(f"Nornir took: {datetime.datetime.now() - start_time} seconds to execute")
 
 
 We need to import some functionality into our script:

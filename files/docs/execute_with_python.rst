@@ -43,24 +43,12 @@ Always, always, always strive to use virtual environments when working with Pyth
 Execute script
 ==============
 
-Execute either the synchronous or asynchronous script after you have updated them with your device parameters
+Execute the script with python from your local shell.
 
 
-.. code-block:: bash
+.. image:: ../images/python_addressbook.png
+   :width: 600
 
-    $ cd files/scrapli
 
-    $ ls -ls output
-    total 0
-
-    $ python app_async.py
-    
-    192.168.105.137
-    <rpc-reply xmlns:junos="http://xml.juniper.net/junos/21.2R0/junos" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="101">
-    <ok/>
-    </rpc-reply>
-
-    192.168.105.146
-    <rpc-reply xmlns:junos="http://xml.juniper.net/junos/21.2R0/junos" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="101">
-    <ok/>
-    </rpc-reply>
+.. image:: ../images/python_policy.png
+   :width: 600
