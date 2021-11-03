@@ -40,7 +40,7 @@ junos:
         dst: 'DMZ'
         name: 'WAN-DMZ'
         match:
-          source_address: '74.51.192.0/24'
+          source_address: 'WAN'
           destination_address: 'any'
           application: 'any'
         then:
