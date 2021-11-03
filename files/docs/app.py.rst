@@ -90,10 +90,24 @@ In our example, our configuration file is named :code:`config.yaml` and stored w
 
     def configure_addressbook(task):
 
-        # pass in variables from inventory file
+
+We will create a function dedicated to the address book configuration; our :code:`main()` function will be calling upon this function later on in the script.
+
+Our fuction is declared with a :code:`task` parameter passed into it, this will be provided by the :code:`nr.run()` method. You can think of this :code:`task` as being related to a unique device within our inventory, it provides access to the device's information and the variables assigned to it.
+
+
+.. code-block:: python
+
         data = {}
         data['addressbook'] = task.host['addressbook']
         print(data)
+
+
+We want to make the device's variables a bit easier to access, so we create a new empty object called :code:`data`, and then stuff our :code:`addressbook` object into it. This :code:`addressbook` object was declared in our :code:`groups.yaml` file, but could have been derived from our :code:`inventory.yaml` or :code:`hosts.yaml` file.
+
+The object is then printed to the screen for everyone to see what we are about to pass into our templating engine.
+
+.. code-block:: python
 
         # execute our task by templating our variables through a Jinja2 template to produce config
         response = task.run(
@@ -103,6 +117,12 @@ In our example, our configuration file is named :code:`config.yaml` and stored w
             template_vars=data,
             data_format='set'
         )
+
+
+asdf 
+
+.. code-block:: python
+
         if response:
             diff = task.run(pyez_diff)
             print_result(diff)
@@ -111,8 +131,7 @@ In our example, our configuration file is named :code:`config.yaml` and stored w
             print_result(commit)
 
 
-AsyncNetconfDriver
-
+asdf
 
 .. code-block:: python
 
