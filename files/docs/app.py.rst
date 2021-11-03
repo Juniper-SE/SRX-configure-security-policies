@@ -90,26 +90,10 @@ In our example, our configuration file is named :code:`config.yaml` and stored w
 
     def configure_addressbook(task):
 
-
-We will create a function dedicated to the address book configuration; our :code:`main()` function will be calling upon this function later on in the script.
-
-Our fuction is declared with a :code:`task` parameter passed into it, this will be provided by the :code:`nr.run()` method. You can think of this :code:`task` as being related to a unique device within our inventory, it provides access to the device's information and the variables assigned to it.
-
-
-.. code-block:: python
-
         data = {}
         data['addressbook'] = task.host['addressbook']
         print(data)
 
-
-We want to make the device's variables a bit easier to access, so we create a new empty object called :code:`data`, and then stuff our :code:`addressbook` object into it. This :code:`addressbook` object was declared in our :code:`groups.yaml` file, but could have been derived from our :code:`inventory.yaml` or :code:`hosts.yaml` file.
-
-The object is then printed to the screen for everyone to see what we are about to pass into our templating engine.
-
-.. code-block:: python
-
-        # execute our task by templating our variables through a Jinja2 template to produce config
         response = task.run(
             task=pyez_config,
             severity_level=logging.DEBUG,
@@ -117,11 +101,6 @@ The object is then printed to the screen for everyone to see what we are about t
             template_vars=data,
             data_format='set'
         )
-
-
-asdf 
-
-.. code-block:: python
 
         if response:
             diff = task.run(pyez_diff)
@@ -131,7 +110,26 @@ asdf
             print_result(commit)
 
 
-asdf
+We will create a function dedicated to the address book configuration; our :code:`main()` function will be calling upon this function later on in the script.
+
+Our fuction is declared with a :code:`task` parameter passed into it, this will be provided by the :code:`nr.run()` method. You can think of this :code:`task` as being related to a unique device within our inventory, it provides access to the device's information and the variables assigned to it.
+
+We want to make the device's variables a bit easier to access, so we create a new empty object called :code:`data`, and then stuff our :code:`addressbook` object into it. This :code:`addressbook` object was declared in our :code:`groups.yaml` file, but could have been derived from our :code:`inventory.yaml` or :code:`hosts.yaml` file.
+
+The object is then printed to the screen for everyone to see what we are about to pass into our templating engine.
+
+We execute our task by calling :code:`task.run()` method, passing in a few sets of information. The response from the task is stored in an object called :code:`response`, which will be used in just a moment.
+
+The data passed into our :code:`task.run()` method requires attention:
+  - :code:`task=pyez_config` tells Nornir we want to use the functionality of our imported method :code:`pyez_config`
+  - :code:`severity_level=logging.DEBUG` sets the appropriate level of logging 
+  - :code:`template_path='templates/addressbook.j2'` points to the path of our :code:`addressbook.j2` template file
+  - :code:`template_vars=data` is how we declare which object to pass into the template file
+  - :code:`data_format='set'` enables us to tell PyEZ which format to expect from our output configuration file
+
+Finally, we want the function to check if there was response from the device, and if so, check to see if there was a configuration diff; the diff is then printed to the screen after being stored to a new object called :code:`diff`.
+
+When :code:`diff` is discovered as :code:`True`, a configuration commit is performed by :code:`pyez_commit`. The output is stored in a new object called :code:`commit` and then printed to the screen with Nornir's :code:`print_result` method.
 
 .. code-block:: python
 
