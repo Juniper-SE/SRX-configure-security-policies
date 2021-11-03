@@ -131,46 +131,35 @@ Finally, we want the function to check if there was response from the device, an
 
 When :code:`diff` is discovered as :code:`True`, a configuration commit is performed by :code:`pyez_commit`. The output is stored in a new object called :code:`commit` and then printed to the screen with Nornir's :code:`print_result` method.
 
+
 .. code-block:: python
 
     def configure_policies(task):
 
-        # pass in variables from inventory file
-        data = {}
-        data['secpolicies'] = task.host['secpolicies']
-        print(data)
 
-        # execute our task by templating our variables through a Jinja2 template to produce config
-        # push and commit
-        response = task.run(
-            task=pyez_config,
-            severity_level=logging.DEBUG,
-            template_path='templates/policies.j2',
-            template_vars=data,
-            data_format='set'
-        )
-        if response:
-            diff = task.run(pyez_diff)
-            print_result(diff)
-        if diff:
-            commit = task.run(task=pyez_commit)
-            print_result(commit)
+Quite literally the same exact function as our :code:`configure_addressbook`, but passing a different template file into Jinja2. This isn't ideal, but hopefully it explains the different steps used to acheive our configuration state.
 
+
+.. code-block:: python
 
     if __name__ == "__main__":
         start_time = datetime.datetime.now()
 
-        # create our address-book entry
         print(f'Configuring our address book now')
         response = nr.run(task=configure_addressbook)
         print_result(response)
 
-        print(f'Configuring our security policies now')
         # create our security policies
         response = nr.run(task=configure_policies)
         print_result(response)
 
-        # print time delta to screen
         print(f"Nornir took: {datetime.datetime.now() - start_time} seconds to execute")
 
 
+Our script's main function.
+
+We start off by creating a snapshot of time with :code:`start_time = datetime.datetime.now()`; this object will be used later when we perform the same task at the end and subtract the two from each other.
+
+Tell the user that we are beginning the address book configuration, then run our :code:`configure_addressbook` function within Nornir's :code:`nr.run()` method. The output will be stored in a new object called :code:`response`, which will then be printed to the screen with :code:`print_result(response)`
+
+Perform the same task for our security policies, this time calling :code:`configure_policies` instead.
