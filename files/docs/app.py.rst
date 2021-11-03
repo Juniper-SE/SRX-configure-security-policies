@@ -25,10 +25,11 @@ In this example we will be creating a new address book object and then referenci
     +  }
 
     [edit security policies]
+        from-zone LAN to-zone DMZ { ... }
     +    from-zone WAN to-zone DMZ {
     +        policy WAN-DMZ {
     +            match {
-    +                source-address 74.51.192.0/24;
+    +                source-address WAN;
     +                destination-address any;
     +                application any;
     +            }
@@ -40,7 +41,6 @@ In this example we will be creating a new address book object and then referenci
     +            }
     +        }
     +    }
-
 
 We will executing our automation in a declarative manner, which is to say that we will declare how we want our firewall to be configured in a data format (YAML) and have it ran through a templating engine (Jinja2). The resulting output will be a series of `set commands` needed to provision the firewall according to our intent.
 
