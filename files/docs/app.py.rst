@@ -48,9 +48,9 @@ As we are working within an automation framework, we will need to provide this d
 
 You may find this document, and all of its kinfolk within the `files/docs/` directory.
 
------------
-Explanation
------------
+--------------
+Code breakdown
+--------------
 
 .. code-block:: python
 
@@ -61,6 +61,19 @@ Explanation
     from nornir import InitNornir
     from nornir_utils.plugins.functions import print_result
     from rich import print
+
+
+Importing functionality into our scripts
+  - `logging` allows us to create basic log files locally
+  - `datetime` enables us to speedtest our script's execution
+  - `pyez_config` lets us manage the configuration on a device with PyEZ
+  - `pyez_diff` will handle the config diff process
+  - `pyez_commit` performs the actual configuration commit process
+  - `InitNornir` is the main method of Nornir, contains all the functionality
+  - `print_result` helps us see the output of our task in the terminal
+  - `print` will replace the functionality of Python's default print method
+
+.. code-block:: python
 
     nr = InitNornir(config_file="config.yaml")
 
