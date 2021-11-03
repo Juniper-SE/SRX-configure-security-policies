@@ -73,9 +73,15 @@ Importing functionality into our scripts
   - `print_result` helps us see the output of our task in the terminal
   - `print` will replace the functionality of Python's default print method
 
+
 .. code-block:: python
 
     nr = InitNornir(config_file="config.yaml")
+
+
+We need to initialize the Nornir framework before we can hope to execute any of its functionality. We do this by creating a new object called `nr`, and store within it the `InitNornir()` method imported above, but not before telling it where to find our configuration file. In our example, our configuration file is named `config.yaml` and stored within the same directory as our script.
+
+.. code-block:: python
 
     def configure_addressbook(task):
 
