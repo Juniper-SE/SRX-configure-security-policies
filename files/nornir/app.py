@@ -16,7 +16,6 @@ def configure_addressbook(task):
     print(data)
 
     # execute our task by templating our variables through a Jinja2 template to produce config
-    # push and commit
     response = task.run(
         task=pyez_config,
         severity_level=logging.DEBUG,
