@@ -1,4 +1,4 @@
-{% for each in secpolicies %}
+{% for each in security_policies %}
 
 set security policies from-zone {{ each.src }} to-zone {{ each.dst }} policy {{ each.name }} match source-address {{ each.match.source_address }}
 set security policies from-zone {{ each.src }} to-zone {{ each.dst }} policy {{ each.name }} match destination-address {{ each.match.destination_address }}

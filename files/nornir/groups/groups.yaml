@@ -1,54 +1,74 @@
 ---
 junos:
-  username: 'nornir'
-  password: 'juniper123'
+  username: "napalm"
+  password: "cicatrix-aura-deceit-conform"
   platform: junos
   data:
-    secpolicies:
-
+    security_policies:
       # LAN to WAN security policy
       # permits all traffic
-      - src: 'LAN'
-        dst: 'WAN'
-        name: 'LAN-WAN'
+      - src: "LAN"
+        dst: "WAN"
+        name: "LAN-WAN"
         match:
-          source_address: 'any'
-          destination_address: 'any'
-          application: 'any'
-          dynamic_application: 'any'
+          source_address: "any"
+          destination_address: "any"
+          application: "any"
+          dynamic_application: "any"
         then:
-          action: 'permit'
-          log: 'session-close'
+          action: "permit"
+          log: "session-close"
 
       # LAN to DMZ security policy
       # permits all traffic
-      - src: 'LAN'
-        dst: 'DMZ'
-        name: 'LAN-DMZ'
+      - src: "LAN"
+        dst: "DMZ"
+        name: "LAN-DMZ"
         match:
-          source_address: 'any'
-          destination_address: 'any'
-          application: 'any'
-          dynamic_application: 'any'
+          source_address: "any"
+          destination_address: "any"
+          application: "any"
+          dynamic_application: "any"
         then:
-          action: 'permit'
-          log: 'session-close'
+          action: "permit"
+          log: "session-close"
 
       # WAN to DMZ security policy
       # permits all traffic sourced from 74.51.192.0/24
-      - src: 'WAN'
-        dst: 'DMZ'
-        name: 'WAN-DMZ'
+      - src: "WAN"
+        dst: "DMZ"
+        name: "WAN-DMZ"
         match:
-          source_address: 'WAN'
-          destination_address: 'any'
-          application: 'any'
+          source_address: "WAN"
+          destination_address: "any"
+          application: "any"
         then:
-          action: 'permit'
-          log: 'session-close'
+          action: "permit"
+          log: "session-close"
 
     addressbook:
-
       # WAN subnet
-      - name: 'WAN'
-        prefix: '74.51.192.0/24'
+      - name: "WAN"
+        prefix: "74.51.192.0/24"
+
+    security_zones:
+      - name: "LAN"
+        interfaces:
+          - "ge-0/0/1.0"
+        inbound:
+          protocols: "all"
+          services: "all"
+
+      - name: "WAN"
+        interfaces:
+          - "ge-0/0/0.0"
+        inbound:
+          protocols: "all"
+          services: "all"
+
+      - name: "DMZ"
+        interfaces:
+          - "ge-0/0/2.0"
+        inbound:
+          protocols: "all"
+          services: "all"

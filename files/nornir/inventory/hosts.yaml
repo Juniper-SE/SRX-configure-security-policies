@@ -1,10 +1,13 @@
 ---
-Lafayette:
-  hostname: 192.168.105.136
+vsrx2:
+  hostname: 192.168.105.196
   groups:
     - junos
-
-Houston:
-  hostname: 192.168.105.121
-  groups:
-    - junos
+  data:
+    interfaces:
+      - name: "ge-0/0/0"
+        inet: "45.0.0.1/31"
+      - name: "ge-0/0/1"
+        inet: "192.168.1.1/24"
+      - name: "ge-0/0/2"
+        inet: "172.16.1.1/24"

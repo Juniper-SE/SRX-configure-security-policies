@@ -23,7 +23,7 @@ Starting off simple, this block of objects will tell Nornir to use the username 
 .. code-block:: yaml
 
       data:
-        secpolicies:
+        security_policies:
 
           # LAN to WAN security policy
           # permits all traffic
@@ -75,6 +75,6 @@ Starting off simple, this block of objects will tell Nornir to use the username 
 
 This is where we create our configuration variables; please note that the top-level object's name is :code:`data`, we will reference this object in our task's exection.
 
-We first define our security policies under :code:`secpolicies`, a list of policies asking the traditional policy information to be ran through :code:`templates/policies.j2`
+We first define our security policies under :code:`security_policies`, a list of policies asking the traditional policy information to be ran through :code:`templates/policies.j2`
 
 Finally, we create an address book list as :code:`addressbook`, which will be ran through :code:`templates/addressbook.j2`

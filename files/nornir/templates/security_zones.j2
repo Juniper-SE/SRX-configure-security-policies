@@ -1,0 +1,7 @@
+{% for each in security_zones %}
+set security zones security-zone {{ each.name }} host-inbound-traffic system-services {{ each.inbound.services }}
+set security zones security-zone {{ each.name }} host-inbound-traffic protocols {{ each.inbound.protocols }}
+{% for iface in each.interfaces %}
+set security zones security-zone {{ each.name }} interfaces {{ iface }}
+{% endfor %}
+{% endfor %}

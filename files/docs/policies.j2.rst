@@ -12,10 +12,10 @@ The resulting set commands will be passed back to Nornir as the configuration to
 
 .. code-block:: python
 
-    {% for each in secpolicies %}
+    {% for each in security_policies %}
 
 
-Since our :code:`secpolicies` object is in list format (defined at the path of :code:`groups/groups.yaml`), we start our work off by looping over that list of items.
+Since our :code:`security_policies` object is in list format (defined at the path of :code:`groups/groups.yaml`), we start our work off by looping over that list of items.
 
 
 .. code-block:: python
